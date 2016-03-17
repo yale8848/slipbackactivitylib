@@ -1,10 +1,10 @@
 Usage:
 
-1. Let your Activity extends SlipBackActivity
+- Let your Activity extends SlipBackActivity
 
   SlipBackActivity is extends FragmentActivity
 
-2. Add style in your styles.xml
+- Add style in your styles.xml
 ```
 <item name="android:windowIsTranslucent">true</item>
 ```
@@ -18,13 +18,11 @@ just like this,let your whole app use this style
         <item name="android:windowIsTranslucent">true</item>
     </style>
 ```
-3. add dependencies in your app build.gradle
+- add dependencies in your app build.gradle
 ```
  compile 'com.daoxuehao.android:slipbackactivitylib:1.1.1'
  compile 'com.android.support:support-v4:19.1.0'
 ```
-
-
 
 - some configure
 
