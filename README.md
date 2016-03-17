@@ -20,6 +20,7 @@ just like this,let your whole app use this style
 ```
 - add dependencies in your app build.gradle
 ```
+ compile 'com.nineoldandroids:library:2.4.0'
  compile 'com.daoxuehao.android:slipbackactivitylib:1.1.1'
  compile 'com.android.support:support-v4:19.1.0'
 ```
