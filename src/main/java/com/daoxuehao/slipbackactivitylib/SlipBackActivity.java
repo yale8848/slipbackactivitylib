@@ -1,9 +1,9 @@
 package com.daoxuehao.slipbackactivitylib;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -16,15 +16,21 @@ import com.nineoldandroids.animation.ValueAnimator;
 /**
  * Created by Yale on 2016/3/16.
  */
-public class SlipBackActivity extends Activity {
+public class SlipBackActivity extends FragmentActivity {
 
     private int mTouchXDown = 0;
     private View mDecorView = null;
     private int mScreenWidth = 0;
-    private static final int TOUCH_START_X = 20;
+    private int mTouchStartX = 20;
+    private int mBackVelocityNum = 3000;
+    private int mMoveGapTime = 500;
+    private float mBackDistenceRateInScreen = 0.5f;
     private boolean mIsCanSlip = true;
     private VelocityTracker mVelocityTracker;
     private boolean mStartMove = false;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +50,23 @@ public class SlipBackActivity extends Activity {
         mDecorView = (ViewGroup) SlipBackActivity.this.getWindow().getDecorView();
 
     }
-
     protected  void setCanSlipBack(boolean bSlip){
         mIsCanSlip = bSlip;
     }
+    protected  void setTouchStartX(int x){
+        mTouchStartX = x;
+    }
+    protected  void setBackVelocityNum(int num){
+        mBackVelocityNum = num;
+    }
+    protected  void setMoveGapTime(int gapTime){
+        mMoveGapTime = gapTime;
+    }
+    protected  void setBackDistenceRateInScreen(float rate){
+        mBackDistenceRateInScreen = rate;
+    }
+
+
     private boolean decorViewMove(MotionEvent event) {
 
         if (isCanSlip()) {
@@ -69,7 +88,7 @@ public class SlipBackActivity extends Activity {
             velocityTracker.computeCurrentVelocity(1000);
             int v = (int) velocityTracker.getXVelocity();
 
-            if (v>3500){
+            if (v>mBackVelocityNum){
                 decorViewForward((int) event.getRawX());
                 return true;
             }
@@ -82,7 +101,7 @@ public class SlipBackActivity extends Activity {
         mStartMove = true;
 
         final ValueAnimator animator = ValueAnimator.ofInt(x,0);
-        animator.setDuration(500);
+        animator.setDuration(mMoveGapTime);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -100,7 +119,7 @@ public class SlipBackActivity extends Activity {
 
         mStartMove = true;
         final ValueAnimator animator = ValueAnimator.ofInt(x,mScreenWidth);
-        animator.setDuration(500);
+        animator.setDuration(mMoveGapTime);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -116,9 +135,9 @@ public class SlipBackActivity extends Activity {
     }
     private boolean decorViewMoveDone(int x) {
 
-        if (mTouchXDown < TOUCH_START_X) {
+        if (mTouchXDown < mTouchStartX) {
 
-            if (x < mScreenWidth/2){
+            if (x < mScreenWidth*mBackDistenceRateInScreen){
                 decorViewBack(x);
             }else{
                 decorViewForward(x);
@@ -130,7 +149,7 @@ public class SlipBackActivity extends Activity {
     }
 
     private  boolean isCanSlip(){
-        return mTouchXDown < TOUCH_START_X;
+        return mTouchXDown < mTouchStartX;
     }
 
     private  void initVelocity(MotionEvent event){
