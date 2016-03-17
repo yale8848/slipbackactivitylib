@@ -11,7 +11,7 @@ Usage:
 just like this,let your whole app use this style
 ```
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-  
+
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -23,6 +23,9 @@ just like this,let your whole app use this style
  compile 'com.daoxuehao.android:slipbackactivitylib:1.1.1'
  compile 'com.android.support:support-v4:19.1.0'
 ```
+
+
+
 - some configure
 
  set is whether can slipback, default is true
